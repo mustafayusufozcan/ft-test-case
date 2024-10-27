@@ -29,7 +29,7 @@ final class CryptoPanic implements NewsProvider
                     self::NAME,
                     $item['title'],
                     $item['url'],
-                    Carbon::parse($item['published_at'])->timezone('Europe/Istanbul'),
+                    Carbon::parse($item['published_at'])->timezone(config('app.timezone')),
                     $item['currencies'] ?? [],
                 );
             }
