@@ -6,6 +6,7 @@ use App\Factories\NewsProviderFactory;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\NewsRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class NewsServiceManager
 {
@@ -50,6 +51,10 @@ class NewsServiceManager
 
                 $this->newsRepository->attachCurrencies($news, $currencies);
             }
+        }
+
+        if(!empty($data)) {
+            Cache::tags(['currencies', 'news'])->flush();
         }
     }
 }
