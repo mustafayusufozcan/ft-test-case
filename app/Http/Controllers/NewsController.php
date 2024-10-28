@@ -29,11 +29,11 @@ class NewsController extends Controller
             $cacheKey .= ('|page:' . $request->validated('page'));
         }
 
-        $currencies = Cache::remember('currencies', 60 * 60, function () {
+        $currencies = Cache::tags(['currencies'])->remember('currencies', 60 * 60, function () {
             return Currency::all();
         });
 
-        $news = Cache::remember($cacheKey, 60 * 60, function () use ($request) {
+        $news = Cache::tags(['news'])->remember($cacheKey, 60 * 60, function () use ($request) {
             return News::with('currencies')
                 ->when($request->validated('currency'), function (Builder $query) use ($request) {
                     return $query->whereHas('currencies', function (Builder $query) use ($request) {
